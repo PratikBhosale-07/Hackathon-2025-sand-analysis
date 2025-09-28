@@ -404,10 +404,14 @@ if __name__ == '__main__':
     # Create uploads directory if it doesn't exist
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     
+    # Get port from environment variable (Render sets this)
+    port = int(os.environ.get('PORT', 5000))
+    
     print("🚀 Starting Flask Camera App...")
-    print("📱 For mobile access, use: http://10.29.26.253:5000")
-    print("💻 For desktop access, use: http://127.0.0.1:5000")
+    print(f"📱 For mobile access, use: http://10.29.26.253:{port}")
+    print(f"💻 For desktop access, use: http://127.0.0.1:{port}")
     print("📸 Camera should work on local network without HTTPS")
     
-    # Run the app with HTTP for better compatibility
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Run the app with production settings for Render
+    debug_mode = os.environ.get('FLASK_ENV') == 'development'
+    app.run(debug=debug_mode, host='0.0.0.0', port=port)
