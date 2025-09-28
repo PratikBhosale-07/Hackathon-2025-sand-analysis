@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Varahamihira Camera App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>Varahamihira</h2>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#map" class="nav-link">Map</a>
+                <a href="#analysis" class="nav-link">Validation & Analysis</a>
+                <a href="#about" class="nav-link">About Us</a>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Varahamihira Photo App</h1>
+            <p class="hero-subtitle">Capture, upload, and analyze your photos with GPS location tracking and AI insights</p>
+            <div class="hero-buttons">
+                <input type="file" id="heroFileInput" accept="image/*" style="display: none;" multiple>
+                <button class="btn btn-primary" onclick="showCamera()">
+                    <i class="fas fa-camera"></i> Capture Photo
+                </button>
+                <button class="btn btn-secondary" onclick="document.getElementById('heroFileInput').click()">
+                    <i class="fas fa-upload"></i> Upload Photos
+                </button>
+                <button class="btn btn-secondary" onclick="openGalleryModal()">
+                    <i class="fas fa-images"></i> View Gallery
+                </button>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <i class="fas fa-camera hero-icon"></i>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- Map Section -->
+    <section id="map" class="map-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Photo Map</h2>
+            </div>
+            
+            <div class="map-container">
+                <div id="photoMap" class="photo-map"></div>
+                <div class="map-controls">
+                    <button class="btn btn-secondary" onclick="centerMap()">
+                        <i class="fas fa-crosshairs"></i> Center Map
+                    </button>
+                    <button class="btn btn-secondary" onclick="showAllPhotos()">
+                        <i class="fas fa-images"></i> Show All Photos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Validation & Analysis Section -->
+    <section id="analysis" class="analysis-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Validation & Analysis</h2>
+                <p class="section-subtitle">AI-powered image analysis and validation insights</p>
+            </div>
+            
+            <div class="analysis-content">
+                <div class="analysis-controls">
+                    <button class="btn btn-primary" onclick="loadAnalysisData()">
+                        <i class="fas fa-sync-alt"></i> Refresh Analysis
+                    </button>
+                    <select id="analysisFilter" class="analysis-filter" onchange="filterAnalysis()">
+                        <option value="all">All Photos</option>
+                        <option value="validated">Validated Only</option>
+                        <option value="pending">Pending Analysis</option>
+                    </select>
+                </div>
+
+                <div class="analysis-grid" id="analysisGrid">
+                    <div class="analysis-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading analysis data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">About Us</h2>
+                <p class="section-subtitle">Meet the Varahamihira Team</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-intro">
+                    <h3>Our Mission</h3>
+                    <p>We are dedicated to creating innovative photo management solutions that combine cutting-edge technology with user-friendly design. Our platform leverages GPS tracking and AI analysis to provide comprehensive insights into your photo collections.</p>
+                </div>
+
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h4>Team Leader</h4>
+                        <p>Project Management & Development</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h4>Frontend Developer</h4>
+                        <p>UI/UX Design & Implementation</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h4>Backend Developer</h4>
+                        <p>Server Architecture & APIs</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h4>AI Specialist</h4>
+                        <p>Image Analysis & Machine Learning</p>
+                    </div>
+                </div>
+
+                <div class="about-tech">
+                    <h3>Technologies Used</h3>
+                    <div class="tech-stack">
+                        <span class="tech-item"><i class="fab fa-python"></i> Python Flask</span>
+                        <span class="tech-item"><i class="fab fa-js"></i> JavaScript</span>
+                        <span class="tech-item"><i class="fab fa-html5"></i> HTML5</span>
+                        <span class="tech-item"><i class="fab fa-css3-alt"></i> CSS3</span>
+                        <span class="tech-item"><i class="fas fa-map-marked-alt"></i> Leaflet.js</span>
+                        <span class="tech-item"><i class="fas fa-camera"></i> Camera API</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Hidden upload input -->
+        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        
+        <!-- Hidden camera and preview sections -->
+        <div class="camera-section" id="cameraSection" style="display: none;">
+            <div class="camera-container">
+                <video id="video" autoplay playsinline></video>
+                <canvas id="canvas" style="display: none;"></canvas>
+                
+                <div class="camera-controls">
+                    <button class="btn btn-danger" onclick="hideCamera()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button class="btn btn-success capture-btn" onclick="capturePhoto()">
+                        <i class="fas fa-camera"></i> Capture
+                    </button>
+                    <button class="btn btn-info" onclick="switchCamera()" id="switchBtn" style="display: none;">
+                        <i class="fas fa-sync-alt"></i> Switch
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="preview-section" id="previewSection" style="display: none;">
+            <div class="preview-container">
+                <img id="previewImage" alt="Preview">
+                <div class="preview-controls">
+                    <button class="btn btn-danger" onclick="cancelPreview()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button class="btn btn-success" onclick="savePhoto()">
+                        <i class="fas fa-save"></i> Save Photo
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Messages -->
+        <div class="status-container">
+            <div id="statusMessage" class="status-message"></div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+            <div class="spinner"></div>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div class="gallery-modal" id="galleryModal" style="display: none;">
+        <div class="modal-overlay" onclick="closeGalleryModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-images"></i> Photo Gallery
+                </h2>
+                <button class="modal-close" onclick="closeGalleryModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="gallery-controls">
+                    <button id="selectModeBtn" class="btn btn-secondary" onclick="toggleSelectMode()">
+                        <i class="fas fa-check-square"></i> Select Photos
+                    </button>
+                    <button id="removeSelectedBtn" class="btn btn-danger" onclick="removeSelected()" style="display: none;">
+                        <i class="fas fa-trash"></i> Remove Selected
+                    </button>
+                    <button id="cancelSelectBtn" class="btn btn-secondary" onclick="cancelSelectMode()" style="display: none;">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+
+                <div class="gallery-grid" id="galleryGrid">
+                    <div class="gallery-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading photos...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/onepage.js') }}"></script>
+</body>
+</html>

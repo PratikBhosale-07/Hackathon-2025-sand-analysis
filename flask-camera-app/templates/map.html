@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Map - Camera & Gallery App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-map-marked-alt"></i> Photo Map</h1>
+            <p>See where your photos were taken</p>
+            <div class="header-controls">
+                <a href="/" class="btn btn-primary">
+                    <i class="fas fa-camera"></i> Camera
+                </a>
+                <a href="/gallery" class="btn btn-secondary">
+                    <i class="fas fa-images"></i> Gallery
+                </a>
+                <button id="findMeBtn" class="btn btn-info" onclick="findMyLocation()">
+                    <i class="fas fa-crosshairs"></i> Find Me
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="map-controls">
+                <div class="map-stats">
+                    <span id="photoCount">Loading photos...</span>
+                </div>
+                <div class="map-filters">
+                    <button id="showAllBtn" class="btn btn-sm btn-secondary active" onclick="showAllPhotos()">
+                        <i class="fas fa-globe"></i> Show All
+                    </button>
+                    <button id="clusterBtn" class="btn btn-sm btn-secondary" onclick="toggleClustering()">
+                        <i class="fas fa-layer-group"></i> Cluster
+                    </button>
+                </div>
+            </div>
+            
+            <div id="map"></div>
+            
+            <div id="photoPreview" class="photo-preview" style="display: none;">
+                <div class="photo-preview-content">
+                    <span class="close-preview" onclick="closePreview()">&times;</span>
+                    <img id="previewImg" src="" alt="Photo preview">
+                    <div class="photo-info">
+                        <h3 id="previewFilename"></h3>
+                        <p id="previewLocation"></p>
+                        <p id="previewDate"></p>
+                        <div class="photo-actions">
+                            <button class="btn btn-sm btn-primary" onclick="viewInGallery()">
+                                <i class="fas fa-images"></i> View in Gallery
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deletePhoto()">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+</body>
+</html>

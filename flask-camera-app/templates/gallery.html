@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery - Camera & Gallery App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-images"></i> Photo Gallery</h1>
+            <p>View all your captured and uploaded photos</p>
+            <div class="header-controls">
+                <a href="/" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Camera
+                </a>
+                <a href="/map" class="btn btn-success">
+                    <i class="fas fa-map-marked-alt"></i> Photo Map
+                </a>
+                <button id="selectModeBtn" class="btn btn-secondary" onclick="toggleSelectMode()">
+                    <i class="fas fa-check-square"></i> Select Photos
+                </button>
+                <button id="removeSelectedBtn" class="btn btn-danger" onclick="removeSelected()" style="display: none;">
+                    <i class="fas fa-trash"></i> Remove Selected
+                </button>
+                <button id="cancelSelectBtn" class="btn btn-secondary" onclick="cancelSelectMode()" style="display: none;">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </header>
+
+        <main>
+            {% if error %}
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Error loading gallery: {{ error }}
+                </div>
+            {% elif files %}
+                <div class="gallery-grid">
+                    {% for file in files %}
+                        <div class="gallery-item" data-filename="{{ file.filename if file is mapping else file }}" 
+                             data-has-location="{{ 'true' if file is mapping and file.has_location else 'false' }}">
+                            <!-- Selection indicators -->
+                            <div class="selection-checkbox" style="display: none;">
+                                <input type="checkbox" class="photo-select" value="{{ file.filename if file is mapping else file }}">
+                                <div class="selection-dot"></div>
+                            </div>
+                            
+                            <!-- Photo image -->
+                            <img src="{{ url_for('uploaded_file', filename=file.filename if file is mapping else file) }}" 
+                                 alt="Photo" 
+                                 onclick="handleImageClick('{{ url_for('uploaded_file', filename=file.filename if file is mapping else file) }}', '{{ file.filename if file is mapping else file }}')"
+                                 loading="lazy">
+                            
+                            <!-- Photo overlay with filename -->
+                            <div class="gallery-item-overlay">
+                                <span class="filename">{{ file.filename if file is mapping else file }}</span>
+                                {% if file is mapping and file.has_location %}
+                                    <span class="location-indicator">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </span>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Photo actions -->
+                            <div class="photo-actions">
+                                {% if file is mapping and file.has_location %}
+                                    <button class="locate-btn" title="Show on map" 
+                                            onclick="locatePhotoOnMap('{{ file.filename }}', '{{ file.location.latitude }}', '{{ file.location.longitude }}')">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </button>
+                                {% else %}
+                                    <button class="locate-btn disabled" title="No location data" disabled>
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-gallery">
+                    <i class="fas fa-camera"></i>
+                    <h3>No photos yet</h3>
+                    <p>Start by taking a photo or uploading from your gallery</p>
+                    <a href="/" class="btn btn-primary">
+                        <i class="fas fa-camera"></i> Take Photo
+                    </a>
+                </div>
+            {% endif %}
+        </main>
+
+        <!-- Image Modal -->
+        <div id="imageModal" class="modal" onclick="closeModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <img id="modalImage" src="" alt="Full size image">
+                <div class="modal-info">
+                    <p id="modalFilename"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/gallery.js') }}"></script>
+</body>
+</html>
