@@ -1756,98 +1756,377 @@ body.selection-mode .selection-dot {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     flex-wrap: wrap;
 }
 
-.analysis-filter {
-    padding: 10px 20px;
-    border: 2px solid var(--accent-blue);
-    border-radius: 25px;
+/* Horizontal Scroll Container Styles */
+.scroll-container-1 {
+    display: flex;
+    overflow-x: auto;
+    padding: 20px;
+    gap: 20px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(109, 148, 197, 0.3) transparent;
+    border-radius: 20px;
+    background: rgba(245, 239, 230, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.scroll-container-1::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scroll-container-1::-webkit-scrollbar-track {
+    background: rgba(232, 223, 202, 0.2);
+    border-radius: 10px;
+}
+
+.scroll-container-1::-webkit-scrollbar-thumb {
+    background: rgba(109, 148, 197, 0.4);
+    border-radius: 10px;
+}
+
+.scroll-container-1::-webkit-scrollbar-thumb:hover {
+    background: rgba(109, 148, 197, 0.6);
+}
+
+.analysis-card {
+    min-width: 320px;
+    height: 280px;
     background: var(--white);
-    color: var(--text-dark);
-    font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    overflow: hidden;
+}
+
+.analysis-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.analysis-card:nth-child(2n) {
+    background: linear-gradient(135deg, var(--cream) 0%, var(--beige) 100%);
+}
+
+.analysis-card:nth-child(3n) {
+    background: linear-gradient(135deg, var(--light-blue) 0%, var(--accent-blue) 100%);
+}
+
+.analysis-card:nth-child(4n) {
+    background: linear-gradient(135deg, var(--beige) 0%, var(--cream) 100%);
+}
+
+.analysis-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
     transition: all 0.3s ease;
+    border-radius: 15px;
 }
 
-.analysis-filter:focus {
-    outline: none;
-    box-shadow: 0 4px 15px var(--shadow-dark);
-}
-
-.analysis-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+/* Carousel Container Styles */
+.carousel-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
     gap: 2rem;
-    margin-top: 2rem;
 }
 
-.analysis-item {
+.carousel-wrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.2s ease-in-out;
+    gap: 2rem;
+    padding: 2rem 0;
+    /* Add padding to allow first and last slides to be centered */
+    padding-left: calc(50% - 36%); /* Center position minus half slide width (72%/2 = 36%) */
+    padding-right: calc(50% - 36%); /* Center position minus half slide width (72%/2 = 36%) */
+}
+
+.carousel-slide {
+    flex: 0 0 calc(72% - 1.33rem);
+    position: relative;
     background: var(--white);
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 8px 25px var(--shadow);
+    transition: all 0.3s ease-out;
+    transform: scale(0.85);
+    opacity: 0.7;
+    cursor: pointer;
+    height: 360px; /* Reduced height by 20% (450px → 360px) */
+}
+
+/* Center slide is larger and more prominent */
+.carousel-slide.center {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 20px 40px var(--shadow-dark);
+    z-index: 2;
+    height: 396px; /* Reduced height by 20% (495px → 396px) */
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%; /* Fill the entire container */
+    object-fit: cover;
+    display: block;
     transition: all 0.3s ease;
 }
 
-.analysis-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px var(--shadow-dark);
-}
+/* Remove separate height for center image since we're using container height */
 
-.analysis-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.analysis-data {
-    padding: 1.5rem;
-}
-
-.analysis-data h4 {
-    color: var(--accent-blue);
-    margin-bottom: 1rem;
+/* Navigation Buttons */
+.carousel-btn {
+    background: var(--accent-blue);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: white;
     font-size: 1.2rem;
-}
-
-.analysis-details {
-    display: grid;
-    gap: 0.8rem;
-}
-
-.analysis-detail {
+    cursor: pointer;
     display: flex;
-    justify-content: space-between;
-    padding: 0.5rem;
-    background: var(--primary-cream);
-    border-radius: 8px;
-    font-size: 0.9rem;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px var(--shadow);
+    z-index: 3;
 }
 
-.detail-label {
+.carousel-btn:hover {
+    transform: scale(1.1);
+    background: var(--text-dark);
+    box-shadow: 0 6px 20px var(--shadow-dark);
+}
+
+.carousel-btn:active {
+    transform: scale(0.95);
+}
+
+.carousel-btn:disabled {
+    opacity: 0.3 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    background: var(--text-light) !important;
+}
+
+.carousel-btn:disabled:hover {
+    transform: none !important;
+    background: var(--text-light) !important;
+    box-shadow: 0 4px 15px var(--shadow) !important;
+}
+
+.carousel-btn.prev {
+    order: -1;
+}
+
+.carousel-btn.next {
+    order: 1;
+}
+
+/* Analysis Tooltip Styles */
+.analysis-tooltip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 70%, transparent 100%);
+    color: white;
+    padding: 1.5rem;
+    transform: translateY(100%);
+    transition: all 0.4s ease;
+    opacity: 0;
+}
+
+.analysis-card:hover .analysis-tooltip {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.analysis-tooltip h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    color: var(--light-blue);
+    font-weight: 600;
+}
+
+.analysis-tooltip p {
+    margin: 0.3rem 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.analysis-tooltip p strong {
+    color: var(--primary-cream);
     font-weight: 500;
-    color: var(--text-dark);
 }
 
-.detail-value {
-    color: var(--text-light);
+/* Carousel Indicators */
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
 }
 
-.analysis-loading {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 3rem;
-    color: var(--text-light);
+.carousel-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--primary-cream);
+    border: 2px solid var(--accent-blue);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.analysis-loading i {
-    font-size: 3rem;
-    color: var(--accent-blue);
-    margin-bottom: 1rem;
+.carousel-indicator.active {
+    background: var(--accent-blue);
+    transform: scale(1.2);
+}
+
+.carousel-indicator:hover {
+    background: var(--light-blue);
+    transform: scale(1.1);
+}
+
+/* Responsive Carousel Styles */
+@media (max-width: 1024px) {
+    .carousel-container {
+        gap: 1rem;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .carousel-slide {
+        height: 288px; /* Reduced by 20% from 360px (360px × 0.8 = 288px) */
+    }
+    
+    .carousel-slide.center {
+        height: 324px; /* Reduced by 20% from 405px (405px × 0.8 = 324px) */
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-container {  
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 4;
+    }
+    
+    .carousel-btn.prev {
+        left: 10px;
+        order: unset;
+    }
+    
+    .carousel-btn.next {
+        right: 10px;
+        order: unset;
+    }
+    
+    .carousel-slide {
+        flex: 0 0 calc(90% - 1rem);
+        height: 252px; /* Reduced by 20% from 315px (315px × 0.8 = 252px) */
+    }
+    
+    .carousel-slide.center {
+        height: 288px; /* Reduced by 20% from 360px (360px × 0.8 = 288px) */
+    }
+    
+    .analysis-tooltip {
+        padding: 1rem;
+    }
+    
+    .analysis-tooltip h4 {
+        font-size: 1rem;
+    }
+    
+    .analysis-tooltip p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-slide {
+        flex: 0 0 calc(80% - 1rem);
+    }
+    
+    .carousel-track {
+        gap: 1rem;
+    }
+}
+
+.analysis-tooltip h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    color: var(--light-blue);
+    font-weight: 600;
+}
+
+.analysis-tooltip p {
+    margin: 0.3rem 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.analysis-tooltip p strong {
+    color: var(--primary-cream);
+    font-weight: 500;
+}
+
+/* Status indicators */
+.analysis-tooltip p:has-text("✅") {
+    color: #4CAF50;
+}
+
+.analysis-tooltip p:has-text("⭐") {
+    color: #FFD700;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .image-item {
+        flex: 0 0 250px;
+    }
+    
+    .analysis-tooltip {
+        padding: 1rem;
+    }
+    
+    .analysis-tooltip h4 {
+        font-size: 1rem;
+    }
+    
+    .analysis-tooltip p {
+        font-size: 0.8rem;
+    }
 }
 
 /* About Section Styles */

@@ -84,25 +84,103 @@
         <div class="section-container">
             <div class="section-header">
                 <h2 class="section-title">Validation & Analysis</h2>
-                <p class="section-subtitle">AI-powered image analysis and validation insights</p>
+                <p class="section-subtitle">Hover over images to view detailed analysis</p>
             </div>
             
             <div class="analysis-content">
                 <div class="analysis-controls">
-                    <button class="btn btn-primary" onclick="loadAnalysisData()">
+                    <button class="btn btn-primary" onclick="loadAnalysisImages()">
                         <i class="fas fa-sync-alt"></i> Refresh Analysis
                     </button>
-                    <select id="analysisFilter" class="analysis-filter" onchange="filterAnalysis()">
-                        <option value="all">All Photos</option>
-                        <option value="validated">Validated Only</option>
-                        <option value="pending">Pending Analysis</option>
-                    </select>
                 </div>
 
-                <div class="analysis-grid" id="analysisGrid">
-                    <div class="analysis-loading">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>Loading analysis data...</p>
+                <div class="scroll-container-1" id="validationScroll">
+                    <div class="analysis-card" data-analysis="Sand Quality: High purity silica content detected. Grain size: 0.2-0.5mm (fine sand). Suitable for construction applications.">
+                        <img src="/uploads/img1.jpg" alt="Analysis Image 1" onerror="this.src='/static/images/placeholder.svg'">
+                        <div class="analysis-tooltip">
+                            <h4>Sand Analysis - Sample 1</h4>
+                            <p><strong>Quality:</strong> High purity silica</p>
+                            <p><strong>Grain Size:</strong> 0.2-0.5mm (fine)</p>
+                            <p><strong>Status:</strong> ✅ Suitable for construction</p>
+                            <p><strong>Location:</strong> Mumbai Beach</p>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-card" data-analysis="Sand Quality: Medium grade silica with minor impurities. Grain size: 0.5-1mm (medium sand). Good for general construction.">
+                        <img src="/uploads/img2.jpg" alt="Analysis Image 2" onerror="this.src='/static/images/placeholder.svg'">
+                        <div class="analysis-tooltip">
+                            <h4>Sand Analysis - Sample 2</h4>
+                            <p><strong>Quality:</strong> Medium grade silica</p>
+                            <p><strong>Grain Size:</strong> 0.5-1mm (medium)</p>
+                            <p><strong>Status:</strong> ✅ Good for construction</p>
+                            <p><strong>Location:</strong> Coastal Area</p>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-card" data-analysis="Sand Quality: Premium grade with high silica content. Grain size: 0.1-0.3mm (very fine). Excellent for specialized applications.">
+                        <img src="/uploads/img3.jpg" alt="Analysis Image 3" onerror="this.src='/static/images/placeholder.svg'">
+                        <div class="analysis-tooltip">
+                            <h4>Sand Analysis - Sample 3</h4>
+                            <p><strong>Quality:</strong> Premium grade</p>
+                            <p><strong>Grain Size:</strong> 0.1-0.3mm (very fine)</p>
+                            <p><strong>Status:</strong> ⭐ Excellent quality</p>
+                            <p><strong>Location:</strong> Shore Line</p>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-card" data-analysis="Sand Quality: Standard grade with acceptable purity. Grain size: 0.3-0.8mm. Suitable for basic construction needs.">
+                        <img src="/uploads/img4.jpg" alt="Analysis Image 4" onerror="this.src='/static/images/placeholder.svg'">
+                        <div class="analysis-tooltip">
+                            <h4>Sand Analysis - Sample 4</h4>
+                            <p><strong>Quality:</strong> Standard grade</p>
+                            <p><strong>Grain Size:</strong> 0.3-0.8mm</p>
+                            <p><strong>Status:</strong> ✅ Basic construction</p>
+                            <p><strong>Location:</strong> Beach Area</p>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-card" data-analysis="Sand Quality: High-grade silica with minimal impurities. Grain size: 0.4-0.7mm. Ideal for concrete mixing.">
+                        <img src="/uploads/img5.jpg" alt="Analysis Image 5" onerror="this.src='/static/images/placeholder.svg'">
+                        <div class="analysis-tooltip">
+                            <h4>Sand Analysis - Sample 5</h4>
+                            <p><strong>Quality:</strong> High-grade silica</p>
+                            <p><strong>Grain Size:</strong> 0.4-0.7mm</p>
+                            <p><strong>Status:</strong> ⭐ Ideal for concrete</p>
+                            <p><strong>Location:</strong> Sampling Point 5</p>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-card" data-analysis="Sand Quality: Good quality with uniform grain distribution. Grain size: 0.2-0.6mm. Recommended for masonry work.">
+                        <img src="/uploads/img6.jpg" alt="Analysis Image 6" onerror="this.src='/static/images/placeholder.svg'">
+                        <div class="analysis-tooltip">
+                            <h4>Sand Analysis - Sample 6</h4>
+                            <p><strong>Quality:</strong> Good uniform distribution</p>
+                            <p><strong>Grain Size:</strong> 0.2-0.6mm</p>
+                            <p><strong>Status:</strong> ✅ Masonry grade</p>
+                            <p><strong>Location:</strong> Coastal Zone</p>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-card" data-analysis="Sand Quality: Excellent purity with consistent grain structure. Grain size: 0.15-0.4mm. Perfect for fine construction work.">
+                        <img src="/uploads/img7.jpg" alt="Analysis Image 7" onerror="this.src='/static/images/placeholder.svg'">
+                        <div class="analysis-tooltip">
+                            <h4>Sand Analysis - Sample 7</h4>
+                            <p><strong>Quality:</strong> Excellent purity</p>
+                            <p><strong>Grain Size:</strong> 0.15-0.4mm</p>
+                            <p><strong>Status:</strong> ⭐ Fine construction</p>
+                            <p><strong>Location:</strong> Premium Zone</p>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-card" data-analysis="Sand Quality: Standard construction grade. Grain size: 0.5-1.2mm (coarse). Suitable for foundation work.">
+                        <img src="/uploads/img8.jpg" alt="Analysis Image 8" onerror="this.src='/static/images/placeholder.svg'">
+                        <div class="analysis-tooltip">
+                            <h4>Sand Analysis - Sample 8</h4>
+                            <p><strong>Quality:</strong> Construction grade</p>
+                            <p><strong>Grain Size:</strong> 0.5-1.2mm (coarse)</p>
+                            <p><strong>Status:</strong> ✅ Foundation work</p>
+                            <p><strong>Location:</strong> Collection Point 8</p>
+                        </div>
                     </div>
                 </div>
             </div>

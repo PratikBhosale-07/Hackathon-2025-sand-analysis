@@ -17,7 +17,35 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize upload functionality
     initializeUploadFunctionality();
+    
+    // Initialize scroll validation
+    setTimeout(() => {
+        initializeScrollValidation();
+    }, 500);
 });
+
+// Navigation fun// Load analysis images function
+function loadAnalysisImages() {
+    const scrollContainer = document.getElementById('validationScroll');
+    if (!scrollContainer) return;
+    
+    // Add loading state
+    const originalContent = scrollContainer.innerHTML;
+    
+    scrollContainer.innerHTML = `
+        <div class="analysis-loading" style="text-align: center; padding: 3rem; color: var(--text-light); min-width: 100%;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--accent-blue); margin-bottom: 1rem;"></i>
+            <p>Refreshing analysis data...</p>
+        </div>
+    `;
+    
+    // Simulate loading delay and restore scroll container
+    setTimeout(() => {
+        scrollContainer.innerHTML = originalContent;
+        console.log('Analysis images refreshed successfully');
+        initializeScrollValidation();
+    }, 2000);
+}
 
 // Navigation functionality
 function initializeNavbar() {
@@ -651,4 +679,266 @@ function showStatusMessage(message, type = 'info') {
             statusDiv.style.display = 'none';
         }, 3000);
     }
+}
+
+// Load analysis images function
+function loadAnalysisImages() {
+    const gallery = document.getElementById('analysisGallery');
+    if (!gallery) return;
+    
+    // Add loading state
+    gallery.innerHTML = `
+        <div class="analysis-loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading analysis images...</p>
+        </div>
+    `;
+    
+    // Simulate loading delay and restore gallery
+    setTimeout(() => {
+        gallery.innerHTML = `
+            <div class="gallery-container">
+                <div class="image-item" data-analysis="Sand Quality: High purity silica content detected. Grain size: 0.2-0.5mm (fine sand). Suitable for construction applications.">
+                    <img src="/uploads/img1.jpg" alt="Analysis Image 1" onerror="this.src='/static/images/placeholder.svg'">
+                    <div class="analysis-tooltip">
+                        <h4>Sand Analysis - Sample 1</h4>
+                        <p><strong>Quality:</strong> High purity silica</p>
+                        <p><strong>Grain Size:</strong> 0.2-0.5mm (fine)</p>
+                        <p><strong>Status:</strong> ✅ Suitable for construction</p>
+                        <p><strong>Location:</strong> Mumbai Beach</p>
+                    </div>
+                </div>
+                
+                <div class="image-item" data-analysis="Sand Quality: Medium grade silica with minor impurities. Grain size: 0.5-1mm (medium sand). Good for general construction.">
+                    <img src="/uploads/img2.jpg" alt="Analysis Image 2" onerror="this.src='/static/images/placeholder.svg'">
+                    <div class="analysis-tooltip">
+                        <h4>Sand Analysis - Sample 2</h4>
+                        <p><strong>Quality:</strong> Medium grade silica</p>
+                        <p><strong>Grain Size:</strong> 0.5-1mm (medium)</p>
+                        <p><strong>Status:</strong> ✅ Good for construction</p>
+                        <p><strong>Location:</strong> Coastal Area</p>
+                    </div>
+                </div>
+                
+                <div class="image-item" data-analysis="Sand Quality: Premium grade with high silica content. Grain size: 0.1-0.3mm (very fine). Excellent for specialized applications.">
+                    <img src="/uploads/img3.jpg" alt="Analysis Image 3" onerror="this.src='/static/images/placeholder.svg'">
+                    <div class="analysis-tooltip">
+                        <h4>Sand Analysis - Sample 3</h4>
+                        <p><strong>Quality:</strong> Premium grade</p>
+                        <p><strong>Grain Size:</strong> 0.1-0.3mm (very fine)</p>
+                        <p><strong>Status:</strong> ⭐ Excellent quality</p>
+                        <p><strong>Location:</strong> Shore Line</p>
+                    </div>
+                </div>
+                
+                <div class="image-item" data-analysis="Sand Quality: Standard grade with acceptable purity. Grain size: 0.3-0.8mm. Suitable for basic construction needs.">
+                    <img src="/uploads/img4.jpg" alt="Analysis Image 4" onerror="this.src='/static/images/placeholder.svg'">
+                    <div class="analysis-tooltip">
+                        <h4>Sand Analysis - Sample 4</h4>
+                        <p><strong>Quality:</strong> Standard grade</p>
+                        <p><strong>Grain Size:</strong> 0.3-0.8mm</p>
+                        <p><strong>Status:</strong> ✅ Basic construction</p>
+                        <p><strong>Location:</strong> Beach Area</p>
+                    </div>
+                </div>
+                
+                <div class="image-item" data-analysis="Sand Quality: High-grade silica with minimal impurities. Grain size: 0.4-0.7mm. Ideal for concrete mixing.">
+                    <img src="/uploads/img5.jpg" alt="Analysis Image 5" onerror="this.src='/static/images/placeholder.svg'">
+                    <div class="analysis-tooltip">
+                        <h4>Sand Analysis - Sample 5</h4>
+                        <p><strong>Quality:</strong> High-grade silica</p>
+                        <p><strong>Grain Size:</strong> 0.4-0.7mm</p>
+                        <p><strong>Status:</strong> ⭐ Ideal for concrete</p>
+                        <p><strong>Location:</strong> Sampling Point 5</p>
+                    </div>
+                </div>
+                
+                <div class="image-item" data-analysis="Sand Quality: Good quality with uniform grain distribution. Grain size: 0.2-0.6mm. Recommended for masonry work.">
+                    <img src="/uploads/img6.jpg" alt="Analysis Image 6" onerror="this.src='/static/images/placeholder.svg'">
+                    <div class="analysis-tooltip">
+                        <h4>Sand Analysis - Sample 6</h4>
+                        <p><strong>Quality:</strong> Good uniform distribution</p>
+                        <p><strong>Grain Size:</strong> 0.2-0.6mm</p>
+                        <p><strong>Status:</strong> ✅ Masonry grade</p>
+                        <p><strong>Location:</strong> Coastal Zone</p>
+                    </div>
+                </div>
+                
+                <div class="image-item" data-analysis="Sand Quality: Excellent purity with consistent grain structure. Grain size: 0.15-0.4mm. Perfect for fine construction work.">
+                    <img src="/uploads/img7.jpg" alt="Analysis Image 7" onerror="this.src='/static/images/placeholder.svg'">
+                    <div class="analysis-tooltip">
+                        <h4>Sand Analysis - Sample 7</h4>
+                        <p><strong>Quality:</strong> Excellent purity</p>
+                        <p><strong>Grain Size:</strong> 0.15-0.4mm</p>
+                        <p><strong>Status:</strong> ⭐ Fine construction</p>
+                        <p><strong>Location:</strong> Premium Zone</p>
+                    </div>
+                </div>
+                
+                <div class="image-item" data-analysis="Sand Quality: Standard construction grade. Grain size: 0.5-1.2mm (coarse). Suitable for foundation work.">
+                    <img src="/uploads/img8.jpg" alt="Analysis Image 8" onerror="this.src='/static/images/placeholder.svg'">
+                    <div class="analysis-tooltip">
+                        <h4>Sand Analysis - Sample 8</h4>
+                        <p><strong>Quality:</strong> Construction grade</p>
+                        <p><strong>Grain Size:</strong> 0.5-1.2mm (coarse)</p>
+                        <p><strong>Status:</strong> ✅ Foundation work</p>
+                        <p><strong>Location:</strong> Collection Point 8</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        console.log('Analysis images loaded successfully');
+        initializeCarousel();
+    }, 1000);
+}
+
+// OLD Carousel functionality (commented out - replaced with scroll validation)
+/*
+let currentSlide = 0;
+const totalSlides = 8; // Total number of slides
+
+function initializeCarousel() {
+    const track = document.getElementById('carouselTrack');
+    const indicators = document.getElementById('carouselIndicators');
+    
+    if (!track || !indicators) return;
+    
+    // Create indicators
+    indicators.innerHTML = '';
+    for (let i = 0; i < totalSlides; i++) {
+        const indicator = document.createElement('div');
+        indicator.className = `carousel-indicator ${i === 0 ? 'active' : ''}`;
+        indicator.addEventListener('click', () => goToSlide(i));
+        indicators.appendChild(indicator);
+    }
+    
+    // Initialize carousel position
+    updateCarousel();
+}
+
+function updateCarousel() {
+    const track = document.getElementById('carouselTrack');
+    const slides = track.querySelectorAll('.carousel-slide');
+    const indicators = document.querySelectorAll('.carousel-indicator');
+    
+    if (!track || slides.length === 0) return;
+    
+    // Calculate transform to center the current slide
+    // Each slide is now 72% width with 2rem gap (20% increase from 60%)
+    // We need to account for the slide width and gaps to center each slide
+    const slideWidthPercent = 72;
+    const gapRem = 2; // 2rem gap
+    
+    // Convert rem to percentage (approximately 2rem ≈ 3.6% for larger slides)
+    const gapPercent = 3.6;
+    
+    // Calculate the offset needed to center the current slide
+    const totalSlideWithGap = slideWidthPercent + gapPercent;
+    const offset = currentSlide * totalSlideWithGap;
+    
+    track.style.transform = `translateX(-${offset}%)`;
+    
+    // Update slide classes (center slide effect)
+    slides.forEach((slide, index) => {
+        slide.classList.remove('center');
+        // The current slide is always the center one
+        if (index === currentSlide) {
+            slide.classList.add('center');
+        }
+    });
+    
+    // Update indicators
+    indicators.forEach((indicator, index) => {
+        indicator.classList.toggle('active', index === currentSlide);
+    });
+    
+    // Update button states
+    updateButtonStates();
+}
+
+function updateButtonStates() {
+    const prevBtn = document.querySelector('.carousel-btn.prev');
+    const nextBtn = document.querySelector('.carousel-btn.next');
+    
+    if (prevBtn && nextBtn) {
+        // Disable previous button at first slide
+        if (currentSlide === 0) {
+            prevBtn.disabled = true;
+            prevBtn.style.opacity = '0.3';
+            prevBtn.style.cursor = 'not-allowed';
+        } else {
+            prevBtn.disabled = false;
+            prevBtn.style.opacity = '1';
+            prevBtn.style.cursor = 'pointer';
+        }
+        
+        // Disable next button at last slide
+        if (currentSlide === totalSlides - 1) {
+            nextBtn.disabled = true;
+            nextBtn.style.opacity = '0.3';
+            nextBtn.style.cursor = 'not-allowed';
+        } else {
+            nextBtn.disabled = false;
+            nextBtn.style.opacity = '1';
+            nextBtn.style.cursor = 'pointer';
+        }
+    }
+}
+
+function nextSlide() {
+    if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateCarousel();
+    }
+}
+
+function previousSlide() {
+    if (currentSlide > 0) {
+        currentSlide--;
+        updateCarousel();
+    }
+}
+
+function goToSlide(slideIndex) {
+    currentSlide = slideIndex;
+    updateCarousel();
+}
+*/
+
+// Initialize scroll validation functionality
+function initializeScrollValidation() {
+    const scrollContainer = document.getElementById('validationScroll');
+    if (!scrollContainer) return;
+    
+    // Add wheel scrolling support
+    scrollContainer.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        scrollContainer.scrollLeft += e.deltaY;
+    });
+    
+    // Add interactive click effects to analysis cards
+    const analysisCards = document.querySelectorAll('.analysis-card');
+    analysisCards.forEach(card => {
+        card.addEventListener('click', function() {
+            // Click animation
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+            
+            // Optional: Add a subtle flash effect
+            this.style.boxShadow = '0 0 30px rgba(109, 148, 197, 0.4)';
+            setTimeout(() => {
+                this.style.boxShadow = '';
+            }, 300);
+        });
+        
+        // Add smooth hover transition
+        card.addEventListener('mouseenter', function() {
+            this.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        });
+    });
+    
+    console.log('Scroll validation initialized successfully');
 }
