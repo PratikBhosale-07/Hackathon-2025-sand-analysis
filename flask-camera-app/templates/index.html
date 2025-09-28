@@ -37,13 +37,13 @@
             <p class="hero-subtitle">Capture, upload, and analyze your photos with GPS location tracking and AI insights</p>
             <div class="hero-buttons">
                 <input type="file" id="heroFileInput" accept="image/*" style="display: none;" multiple>
-                <button class="btn btn-primary" onclick="showCamera()">
+                <button class="btn btn-primary" onclick="showHardwareModal()">
                     <i class="fas fa-camera"></i> Capture Photo
                 </button>
-                <button class="btn btn-secondary" onclick="document.getElementById('heroFileInput').click()">
+                <button class="btn btn-secondary" onclick="showHardwareModal()">
                     <i class="fas fa-upload"></i> Upload Photos
                 </button>
-                <button class="btn btn-secondary" onclick="openGalleryModal()">
+                <button class="btn btn-secondary" onclick="showHardwareModal()">
                     <i class="fas fa-images"></i> View Gallery
                 </button>
             </div>
@@ -331,6 +331,25 @@
                         <p>Loading photos...</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hardware Error Modal -->
+    <div id="hardwareErrorModal" class="hardware-modal-overlay">
+        <div class="hardware-modal-content">
+            <div class="hardware-modal-header">
+                <div class="hardware-warning-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+            </div>
+            <div class="hardware-modal-body">
+                <p class="hardware-modal-message">This button will function properly after it is connected to the hardware.</p>
+            </div>
+            <div class="hardware-modal-footer">
+                <button class="hardware-understood-btn" onclick="closeHardwareModal()">
+                    <i class="fas fa-check"></i> Understood
+                </button>
             </div>
         </div>
     </div>

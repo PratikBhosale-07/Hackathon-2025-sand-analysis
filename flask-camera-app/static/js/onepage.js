@@ -942,3 +942,41 @@ function initializeScrollValidation() {
     
     console.log('Scroll validation initialized successfully');
 }
+
+// Hardware Modal Functions
+function showHardwareModal() {
+    const modal = document.getElementById('hardwareErrorModal');
+    if (modal) {
+        modal.classList.add('show');
+        // Prevent body scrolling when modal is open
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeHardwareModal() {
+    const modal = document.getElementById('hardwareErrorModal');
+    if (modal) {
+        modal.classList.remove('show');
+        // Restore body scrolling
+        document.body.style.overflow = '';
+    }
+}
+
+// Close modal when clicking outside the content
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('hardwareErrorModal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeHardwareModal();
+            }
+        });
+    }
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeHardwareModal();
+        }
+    });
+});
