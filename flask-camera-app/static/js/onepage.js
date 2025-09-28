@@ -484,6 +484,9 @@ function initializePhotoMap() {
     // Load photo markers
     loadPhotoMarkers();
     
+    // Load Excel locations
+    loadExcelLocations();
+    
     // Try to get user's current location
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -534,6 +537,80 @@ function loadPhotoMarkers() {
         })
         .catch(error => {
             console.error('Error loading photo locations:', error);
+        });
+}
+
+function loadExcelLocations() {
+    if (!map) return;
+    
+    fetch('/api/excel-locations')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.locations) {
+                console.log(`Loading ${data.locations.length} locations from Excel`);
+                
+                data.locations.forEach(location => {
+                    if (location.lat && location.lng) {
+                        // Create custom icon for Excel locations (different from photo markers)
+                        const excelIcon = L.divIcon({
+                            className: 'excel-marker',
+                            html: '<i class="fas fa-map-pin" style="color: #e74c3c; font-size: 20px;"></i>',
+                            iconSize: [20, 20],
+                            iconAnchor: [10, 20]
+                        });
+                        
+                        // Create popup content
+                        let popupContent = `
+                            <div class="excel-popup">
+                                <h4>Location ${location.index}</h4>
+                                <p><strong>Coordinates:</strong><br>
+                                   📍 ${location.lat.toFixed(6)}, ${location.lng.toFixed(6)}</p>
+                        `;
+                        
+                        // Add date if available
+                        if (location.date && location.date !== 'nan') {
+                            popupContent += `<p><strong>Date:</strong><br>📅 ${location.date}</p>`;
+                        }
+                        
+                        // Add image preview if available
+                        if (location.image && location.image !== 'nan') {
+                            // Check if image exists in uploads folder
+                            const imageUrl = `/uploads/${location.image}`;
+                            popupContent += `
+                                <div class="image-preview">
+                                    <img src="${imageUrl}" alt="Location Image" 
+                                         style="width: 150px; height: auto; border-radius: 8px; margin-top: 8px;"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <p style="display: none; color: #999; font-size: 12px;">Image: ${location.image}</p>
+                                </div>
+                            `;
+                        }
+                        
+                        popupContent += '</div>';
+                        
+                        // Create marker and add to map
+                        const marker = L.marker([location.lat, location.lng], { icon: excelIcon })
+                            .addTo(map)
+                            .bindPopup(popupContent);
+                        
+                        photoMarkers.push(marker); // Add to photoMarkers for showAllPhotos function
+                    }
+                });
+                
+                console.log(`Added ${data.locations.length} Excel locations to map`);
+                
+                // Show status message if locations were loaded
+                if (data.locations.length > 0) {
+                    setTimeout(() => {
+                        showStatusMessage(`📍 Loaded ${data.locations.length} locations from Excel file`, 'success');
+                    }, 1000);
+                }
+            } else {
+                console.log('No Excel locations found or error:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error loading Excel locations:', error);
         });
 }
 

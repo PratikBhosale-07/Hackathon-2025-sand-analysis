@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
 import base64
 import ssl
+import pandas as pd
 
 app = Flask(__name__)
 # Use absolute path for uploads folder
@@ -48,6 +49,84 @@ def save_photo_metadata(filename, location_data):
             json.dump(metadata, f, indent=2)
     except Exception as e:
         print(f"Warning: Could not save metadata for {filename}: {e}")
+
+def load_excel_locations():
+    """Load GPS coordinates and dates from Excel file"""
+    try:
+        excel_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'complete_gps_and_dates.xlsx')
+        if not os.path.exists(excel_path):
+            print(f"Excel file not found at: {excel_path}")
+            return []
+        
+        # Read Excel file
+        df = pd.read_excel(excel_path)
+        print(f"Excel columns: {df.columns.tolist()}")
+        
+        locations = []
+        for index, row in df.iterrows():
+            try:
+                # Try different possible column names for latitude and longitude
+                lat_col = None
+                lng_col = None
+                
+                # Use exact column names from the Excel file
+                lat_col = 'latitude' if 'latitude' in df.columns else None
+                lng_col = 'longitude' if 'longitude' in df.columns else None
+                
+                # Fallback to checking for common variations
+                if not lat_col or not lng_col:
+                    for col in df.columns:
+                        col_lower = col.lower()
+                        if not lat_col and ('lat' in col_lower or 'latitude' in col_lower):
+                            lat_col = col
+                        elif not lng_col and ('lng' in col_lower or 'lon' in col_lower or 'longitude' in col_lower):
+                            lng_col = col
+                
+                if lat_col and lng_col:
+                    lat = float(row[lat_col])
+                    lng = float(row[lng_col])
+                    
+                    # Get additional data if available
+                    location_data = {
+                        'lat': lat,
+                        'lng': lng,
+                        'index': index + 1
+                    }
+                    
+                    # Add date if available (use exact column name)
+                    if 'date_taken' in df.columns:
+                        location_data['date'] = str(row['date_taken'])
+                    else:
+                        # Fallback to searching for date columns
+                        for col in df.columns:
+                            col_lower = col.lower()
+                            if 'date' in col_lower or 'time' in col_lower:
+                                location_data['date'] = str(row[col])
+                                break
+                    
+                    # Add image filename if available (use exact column name)
+                    if 'image_name' in df.columns:
+                        location_data['image'] = str(row['image_name'])
+                    else:
+                        # Fallback to searching for image columns
+                        for col in df.columns:
+                            col_lower = col.lower()
+                            if 'image' in col_lower or 'photo' in col_lower or 'file' in col_lower:
+                                location_data['image'] = str(row[col])
+                                break
+                    
+                    locations.append(location_data)
+                
+            except (ValueError, TypeError) as e:
+                print(f"Error processing row {index}: {e}")
+                continue
+        
+        print(f"Loaded {len(locations)} locations from Excel")
+        return locations
+        
+    except Exception as e:
+        print(f"Error loading Excel file: {e}")
+        return []
 
 def remove_photo_metadata(filename):
     """Remove photo metadata when photo is deleted"""
@@ -237,6 +316,22 @@ def map_view():
 def test_page():
     """Mobile connectivity and camera test page"""
     return render_template('test.html')
+
+@app.route('/api/excel-locations')
+def excel_locations():
+    """API endpoint to get GPS locations from Excel file"""
+    try:
+        locations = load_excel_locations()
+        return jsonify({
+            'success': True,
+            'locations': locations,
+            'count': len(locations)
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Error loading Excel locations: {str(e)}'
+        })
 
 @app.route('/api/photos-with-locations')
 def photos_with_locations():

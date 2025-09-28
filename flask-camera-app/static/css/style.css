@@ -1071,6 +1071,42 @@ section.animate-in {
     margin-bottom: 10px;
 }
 
+/* Excel marker styles */
+.excel-marker {
+    background: none;
+    border: none;
+    text-align: center;
+}
+
+.excel-popup {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    max-width: 200px;
+}
+
+.excel-popup h4 {
+    margin: 0 0 10px 0;
+    color: var(--accent-blue);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.excel-popup p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+}
+
+.excel-popup .image-preview img {
+    border: 2px solid var(--accent-blue);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.excel-popup .image-preview img:hover {
+    transform: scale(1.05);
+}
+
 .popup-info h4 {
     margin: 10px 0 5px 0;
     font-size: 1rem;
@@ -1647,6 +1683,49 @@ body.selection-mode .selection-dot {
     font-size: 0.9rem;
     min-width: auto;
     box-shadow: 0 4px 15px var(--shadow);
+}
+
+/* Status message for map */
+.status-message {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 1001;
+    animation: slideInUp 0.3s ease-out;
+}
+
+.status-message.success {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.status-message.error {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+    color: white;
+    box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+}
+
+.status-message.info {
+    background: linear-gradient(135deg, var(--accent-blue), var(--light-blue));
+    color: white;
+    box-shadow: 0 4px 15px var(--shadow-dark);
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
 }
 
 /* Analysis Section Styles */
