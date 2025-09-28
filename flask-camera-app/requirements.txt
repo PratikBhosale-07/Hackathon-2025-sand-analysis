@@ -1,11 +1,12 @@
-Flask
+
 Werkzeug
 Jinja2
 MarkupSafe
 itsdangerous
 click
 blinker
-Flask
-gunicorn
-pandas
-openpyxl   # required because you use pd.read_excel()
+Flask==2.2.5
+gunicorn==23.0.0
+pandas==2.2.2
+numpy==1.26.4
+openpyxl==3.1.5
